@@ -695,7 +695,6 @@
     </style>
 </head>
 <body onload="initApp()">
-    <!-- ===== HEADER ===== -->
     <div class="header">
         <div class="header-info">
             <img id="botAvatar" src="https://i.imgur.com/HeIi0wU.png" class="avatar" alt="bot">
@@ -710,10 +709,8 @@
         </div>
     </div>
 
-    <!-- ===== CHAT ===== -->
     <div id="chatWindow" class="chat-window"></div>
 
-    <!-- ===== TYPING ===== -->
     <div id="typingIndicator" class="typing-indicator">
         <span>thinking</span>
         <span class="typing-dot"></span>
@@ -721,7 +718,6 @@
         <span class="typing-dot"></span>
     </div>
 
-    <!-- ===== INPUT AREA ===== -->
     <div class="input-area">
         <input type="text" id="userInput" class="input-field" placeholder="Type your message…" autocomplete="off">
         <button class="pic-btn" onclick="generateImageDirect()">📷 Pic</button>
@@ -729,13 +725,11 @@
         <button class="send-btn" onclick="sendMessage()">➤</button>
     </div>
 
-    <!-- ===== SETTINGS MODAL ===== -->
     <div id="settingsModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">⚡ Character &amp; Settings</div>
             <div class="modal-sub">All settings save automatically</div>
 
-            <!-- ─── BOT PROFILE ─── -->
             <div class="profile-section">
                 <div class="section-title">🤖 Bot Profile</div>
                 <div class="form-group">
@@ -768,7 +762,6 @@
                 </div>
             </div>
 
-            <!-- ─── USER PROFILE ─── -->
             <div class="profile-section">
                 <div class="section-title">🧑 User Profile</div>
                 <div class="form-group">
@@ -787,7 +780,6 @@
 
             <hr class="divider">
 
-            <!-- ─── AI ENGINE ─── -->
             <div class="form-group">
                 <label>🧠 AI Engine:</label>
                 <select id="engineSelect" class="form-control" onchange="toggleEngineFields()">
@@ -837,48 +829,16 @@
                 <div class="form-group">
                     <label>📦 Free Models <span class="badge-free">FREE</span> (up‑to‑date):</label>
                     <select id="orModelInput" class="form-control">
-                        <option value="cognitivecomputations/dolphin-mistral-24b-venice-edition:free">🔞 Venice Uncensored (Dolphin Mistral 24B) – FREE</option>
-                        <option value="meta-llama/llama-3.3-70b-instruct:free">🦙 Meta Llama 3.3 70B (Free)</option>
-                        <option value="meta-llama/llama-3.2-3b-instruct:free">🦙 Meta Llama 3.2 3B (Free)</option>
-                        <option value="meta-llama/llama-3.1-8b-instruct:free">🦙 Meta Llama 3.1 8B (Free)</option>
-                        <option value="qwen/qwen3-coder-480b-a35b-instruct:free">🐉 Qwen3 Coder 480B A35B (Free)</option>
-                        <option value="qwen/qwen3-next-80b-a3b-instruct:free">🐉 Qwen3 Next 80B A3B (Free)</option>
-                        <option value="qwen/qwen-2.5-7b-instruct:free">🐉 Qwen 2.5 7B (Free)</option>
-                        <option value="qwen/qwen-2.5-14b-instruct:free">🐉 Qwen 2.5 14B (Free)</option>
-                        <option value="nvidia/nemotron-nano-9b-v2:free">💻 Nemotron Nano 9B V2 (Free)</option>
-                        <option value="nvidia/nemotron-3-nano-30b-a3b:free">💻 Nemotron 3 Nano 30B A3B (Free)</option>
-                        <option value="nvidia/nemotron-3-super:free">💻 Nemotron 3 Super (Free)</option>
-                        <option value="nvidia/nemotron-nano-12b-vl:free">💻 Nemotron Nano 12B VL (Free)</option>
-                        <option value="openai/gpt-oss-120b:free">🤖 gpt-oss-120b (Free)</option>
-                        <option value="openai/gpt-oss-20b:free">🤖 gpt-oss-20b (Free)</option>
-                        <option value="openai/gpt-4o-mini-2024-07-18:free">🤖 GPT-4o Mini (Free)</option>
-                        <option value="google/gemma-4-26b-a4b:free">📊 Gemma 4 26B A4B (Free)</option>
-                        <option value="google/gemma-4-31b:free">📊 Gemma 4 31B (Free)</option>
-                        <option value="google/gemini-2.0-flash-001:free">⚡ Gemini 2.0 Flash (Free)</option>
                         <option value="google/gemini-2.5-flash-001:free">⚡ Gemini 2.5 Flash (Free)</option>
-                        <option value="google/gemini-2.0-flash-lite-001:free">⚡ Gemini 2.0 Flash Lite (Free)</option>
-                        <option value="liquid/lfm2.5-1.2b-thinking:free">🧪 LFM2.5 1.2B Thinking (Free)</option>
-                        <option value="liquid/lfm2.5-1.2b-instruct:free">🧪 LFM2.5 1.2B Instruct (Free)</option>
-                        <option value="deepseek/deepseek-chat:free">🐋 DeepSeek Chat (Free)</option>
-                        <option value="deepseek/deepseek-r1-distill-llama-70b:free">🐋 DeepSeek R1 Distill 70B (Free)</option>
-                        <option value="microsoft/phi-3-mini-128k-instruct:free">🧠 Phi-3 Mini (Free)</option>
-                        <option value="microsoft/phi-3.5-mini-instruct:free">🧠 Phi-3.5 Mini (Free)</option>
+                        <option value="deepseek/deepseek-r1:free">🐋 DeepSeek R1 (Free)</option>
+                        <option value="meta-llama/llama-3.3-70b-instruct:free">🦙 Meta Llama 3.3 70B (Free)</option>
+                        <option value="cognitivecomputations/dolphin3.0-r1-mistral-24b:free">🔞 Dolphin 3.0 R1 Mistral (Free Uncensored)</option>
+                        <option value="qwen/qwen-2.5-72b-instruct:free">🐉 Qwen 2.5 72B (Free)</option>
                         <option value="mistralai/mistral-7b-instruct:free">🌊 Mistral 7B (Free)</option>
-                        <option value="mistralai/mistral-7b-instruct-v0.3:free">🌊 Mistral 7B v0.3 (Free)</option>
-                        <option value="NousResearch/Hermes-2-Pro-Llama-3-8B:free">🔮 Hermes 2 Pro 8B (Free)</option>
-                        <option value="NousResearch/Hermes-3-Llama-3.1-8B:free">🔮 Hermes 3 8B (Free)</option>
-                        <option value="nousresearch/hermes-3-llama-3.1-405b:free">🔮 Hermes 3 405B (Free)</option>
-                        <option value="cohere/command-r7b-12-2024:free">📡 Command R7B (Free)</option>
-                        <option value="cohere/command-r-plus-08-2024:free">📡 Command R+ (Free)</option>
-                        <option value="perplexity/llama-3.1-sonar-small-128k-online:free">📡 Sonar Small Online (Free)</option>
-                        <option value="perplexity/llama-3.1-sonar-large-128k-online:free">📡 Sonar Large Online (Free)</option>
-                        <option value="anthropic/claude-3.5-haiku-20241022:free">🎨 Claude 3.5 Haiku (Free)</option>
+                        <option value="microsoft/phi-3-mini-128k-instruct:free">🧠 Phi-3 Mini (Free)</option>
+                        <option value="nousresearch/hermes-3-llama-3.1-8b:free">🔮 Hermes 3 8B (Free)</option>
+                        <option value="google/gemma-2-9b-it:free">📊 Gemma 2 9B (Free)</option>
                         <option value="anthropic/claude-3-haiku-20240307:free">🎨 Claude 3 Haiku (Free)</option>
-                        <option value="poolside/laguna-xs.2:free">🏝️ Laguna XS.2 (Free)</option>
-                        <option value="poolside/laguna-m.1:free">🏝️ Laguna M.1 (Free)</option>
-                        <option value="nex-agi/nex-n2-pro:free">🧠 Nex N2 Pro (Free)</option>
-                        <option value="sao10k/llama-3.1-70b-hanami-x1:free">🌸 Hanami 70B (Free)</option>
-                        <option value="sao10k/llama-3.3-euryale-70b:free">🌌 Euryale 70B (Free)</option>
                     </select>
                     <div class="helper-link">✅ All models above are confirmed free as of June 2026.</div>
                 </div>
@@ -893,13 +853,12 @@
                 <div class="form-group">
                     <label>📦 HF Text Model (choose a free one):</label>
                     <select id="hfTextModelInput" class="form-control">
-                        <option value="mistralai/Mistral-7B-Instruct-v0.1">🌊 Mistral-7B-Instruct</option>
+                        <option value="mistralai/Mistral-7B-Instruct-v0.3">🌊 Mistral-7B-Instruct-v0.3</option>
                         <option value="meta-llama/Llama-3.2-3B-Instruct">🦙 Llama-3.2-3B</option>
-                        <option value="microsoft/Phi-3-mini-128k-instruct">🧠 Phi-3-mini</option>
-                        <option value="google/gemma-2-2b-it">📊 Gemma-2-2B</option>
                         <option value="Qwen/Qwen2.5-7B-Instruct">🐉 Qwen2.5-7B</option>
+                        <option value="microsoft/Phi-3.5-mini-instruct">🧠 Phi-3.5-mini</option>
                     </select>
-                    <div class="helper-link">These are free inference models on Hugging Face.</div>
+                    <div class="helper-link">These are free chat models on Hugging Face.</div>
                 </div>
             </div>
 
@@ -913,7 +872,6 @@
 
             <hr class="divider">
 
-            <!-- ─── IMAGE GENERATOR ─── -->
             <div class="form-group">
                 <label>🖼️ Image Provider:</label>
                 <select id="imgProvider" class="form-control" onchange="toggleImgProvider()">
@@ -959,7 +917,6 @@
 
             <hr class="divider">
 
-            <!-- ─── SYSTEM PROMPT ─── -->
             <div class="form-group">
                 <label>📝 System Prompt (advanced):</label>
                 <textarea id="descInput" rows="3" class="form-control" placeholder="Custom system prompt…"></textarea>
@@ -971,7 +928,6 @@
                 <input type="file" accept="image/*" id="bgInput" class="form-control" style="padding:6px;">
             </div>
 
-            <!-- ─── ACTIONS ─── -->
             <div class="modal-actions">
                 <button class="btn btn-red" onclick="clearChat()">🗑️ Clear Chat</button>
                 <div style="display:flex; gap:8px; flex-wrap:wrap;">
@@ -983,9 +939,6 @@
         </div>
     </div>
 
-    <!-- ============================================================= -->
-    <!-- JAVASCRIPT — All functions globally defined, inline onclick     -->
-    <!-- ============================================================= -->
     <script>
         // ─── GLOBAL ERROR HANDLER ───
         window.onerror = function(msg, url, line, col, error) {
@@ -1012,7 +965,7 @@
             geminiModel: 'gemini-2.5-flash',
             safetyLevel: 'none',
             orKey: '',
-            orModel: 'cognitivecomputations/dolphin-mistral-24b-venice-edition:free',
+            orModel: 'cognitivecomputations/dolphin3.0-r1-mistral-24b:free',
             imgProvider: 'pollinations',
             hfToken: '',
             hfModel: 'stabilityai/stable-diffusion-2-1',
@@ -1021,7 +974,7 @@
             bgImage: '',
             desc: '',
             hfTextToken: '',
-            hfTextModel: 'mistralai/Mistral-7B-Instruct-v0.1'
+            hfTextModel: 'mistralai/Mistral-7B-Instruct-v0.3'
         };
 
         var config = {};
@@ -1336,10 +1289,10 @@
             document.getElementById('safetyLevel').value = config.safetyLevel || 'none';
             document.getElementById('orKeyInput').value = config.orKey || '';
             document.getElementById('orModelInput').value = config.orModel ||
-                'cognitivecomputations/dolphin-mistral-24b-venice-edition:free';
+                'cognitivecomputations/dolphin3.0-r1-mistral-24b:free';
             document.getElementById('hfTextTokenInput').value = config.hfTextToken || '';
             document.getElementById('hfTextModelInput').value = config.hfTextModel ||
-                'mistralai/Mistral-7B-Instruct-v0.1';
+                'mistralai/Mistral-7B-Instruct-v0.3';
             document.getElementById('imgProvider').value = config.imgProvider || 'pollinations';
             document.getElementById('hfTokenInput').value = config.hfToken || '';
             document.getElementById('hfModelInput').value = config.hfModel || 'stabilityai/stable-diffusion-2-1';
@@ -1687,7 +1640,7 @@
         async function callHuggingFaceText(promptText, systemPrompt) {
             var token = config.hfTextToken || config.hfToken;
             if (!token) throw new Error('Hugging Face token missing.');
-            var model = config.hfTextModel || 'mistralai/Mistral-7B-Instruct-v0.1';
+            var model = config.hfTextModel || 'mistralai/Mistral-7B-Instruct-v0.3';
 
             var messages = [
                 { role: 'system', content: systemPrompt }
@@ -1699,33 +1652,33 @@
                 messages.push({ role: msg.role === 'user' ? 'user' : 'assistant', content: msg.text });
             }
 
-            var payload = {
-                inputs: messages,
-                parameters: {
-                    max_new_tokens: 800,
-                    temperature: 0.85,
-                    return_full_text: false
-                }
-            };
-
-            var url = 'https://api-inference.huggingface.co/models/' + model;
+            // Updated Endpoint: /v1/chat/completions
+            var url = 'https://api-inference.huggingface.co/models/' + model + '/v1/chat/completions';
+            
             var response = await fetch(url, {
                 method: 'POST',
                 headers: {
                     'Authorization': 'Bearer ' + token,
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(payload),
+                body: JSON.stringify({
+                    model: model,
+                    messages: messages,
+                    max_tokens: 800,
+                    temperature: 0.85
+                }),
                 signal: abortController.signal
             });
 
             var data = await response.json();
             if (!response.ok) {
-                var errMsg = data.error || 'Unknown HF error';
+                var errMsg = data.error?.message || data.error || 'Unknown HF error';
                 throw new Error('HF Text API error: ' + errMsg);
             }
-            if (data && data[0] && data[0].generated_text) {
-                return data[0].generated_text;
+            
+            // Extracts message standard format
+            if (data.choices && data.choices[0].message.content) {
+                return data.choices[0].message.content;
             } else {
                 throw new Error('No text generated.');
             }
@@ -1819,75 +1772,4 @@
             if (!userInput) return;
             var txt = userInput.value.trim();
             if (!txt) {
-                for (var i = chatHistory.length - 1; i >= 0; i--) {
-                    if (chatHistory[i].role === 'user') {
-                        txt = chatHistory[i].text;
-                        break;
-                    }
-                }
-                if (!txt) txt = 'beautiful portrait aesthetic';
-            }
-            appendMessage('user', '🎨 [Image request]: ' + txt);
-            chatHistory.push({ role: 'user', text: '🎨 [Image request]: ' + txt, isImage: false });
-            localStorage.setItem(CHAT_KEY, JSON.stringify(chatHistory));
-            userInput.value = '';
-            generateImage(txt);
-        }
-
-        // ─── TEST ───
-        function testFunction() {
-            alert('🧪 Test works! All taps/clicks are responsive.');
-        }
-
-        // ─── INIT ─── (called from body onload)
-        function initApp() {
-            // Confirm script loaded
-            alert('✅ App Loaded! All buttons are active.');
-
-            chatWindow = document.getElementById('chatWindow');
-            botAvatar = document.getElementById('botAvatar');
-            botNameEl = document.getElementById('botName');
-            statusText = document.getElementById('statusText');
-            settingsModal = document.getElementById('settingsModal');
-            typingIndicator = document.getElementById('typingIndicator');
-            stopBtn = document.getElementById('stopBtn');
-            userInput = document.getElementById('userInput');
-
-            if (!chatWindow || !botAvatar || !botNameEl || !statusText || !settingsModal || !typingIndicator ||
-                !stopBtn || !userInput) {
-                console.error('❌ Some DOM elements missing!');
-                return;
-            }
-
-            loadSaved();
-
-            botNameEl.innerText = config.botName || 'Roleplay AI';
-            botAvatar.src = config.botAvatar || defaultConfig.botAvatar;
-            if (config.bgImage) {
-                chatWindow.style.backgroundImage = 'url(' + config.bgImage + ')';
-            }
-            document.getElementById('engineSelect').value = config.engine || 'openrouter';
-            document.getElementById('imgProvider').value = config.imgProvider || 'pollinations';
-            toggleEngineFields();
-            toggleImgProvider();
-            loadChat();
-
-            // File input handlers (can't use inline onclick)
-            document.getElementById('avatarInput').addEventListener('change', function() { handleAvatarFile(this); });
-            document.getElementById('userAvatarFileInput').addEventListener('change', function() { handleUserAvatarFile(
-                    this); });
-            document.getElementById('bgInput').addEventListener('change', function() { handleBgFile(this); });
-
-            // Enter key for input
-            userInput.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                    e.preventDefault();
-                    sendMessage();
-                }
-            });
-
-            console.log('✅ App initialized. All click events are working via inline onclick.');
-        }
-    </script>
-</body>
-</html>
+                for (var i =
