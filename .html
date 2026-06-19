@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="ur">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Uncensored Roleplay · Urdu</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background: #0b0a12;
+            color: #e5e7eb;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .header {
+            background: rgba(18, 16, 28, 0.95);
+            padding: 10px 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #3b2f54;
+            flex-shrink: 0;
+            backdrop-filter: blur(6px);
+        }
+        .header-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .header-info .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #a78bfa;
+        }
+        .header-info .name-status h2 {
+            font-size: 17px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #f472b6, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .header-info .name-status p {
+            font-size: 11px;
+            color: #a78bfa;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .online-dot {
+            display: inline-block;
+            width: 7px;
+            height: 7px;
+            background: #34d399;
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0%,
+            100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.3;
+            }
+        }
+        .header-actions {
+            display: flex;
+            gap: 6px;
+        }
+        .settings-btn {
+            background: #2d2444;
+            color: #c4b5fd;
+            border: 1px solid #4c3b6e;
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            touch-action: manipulation;
+        }
+        .settings-btn:active {
+            background: #4c3b6e;
+        }
+
+        .chat-window {
+            flex: 1;
+            overflow-y: auto;
+            padding: 14px 12px 90px 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background: radial-gradient(circle at 50% 0%, #16132a, #0b0a12 80%);
+            transition: background 0.8s;
+        }
+        .msg-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            max-width: 92%;
+            animation: fadeIn 0.3s ease;
+        }
+        .msg-row.user {
+            align-self: flex-end;
+            flex-direction: row-reverse;
+        }
+        .msg-row.bot {
+            align-self: flex-start;
+        }
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .msg-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1.5px solid #4c3b6e;
+            flex-shrink: 0;
+            background: #1a1625;
+        }
+        .msg-content {
+            display: flex;
+            flex-direction: column;
+            max-width: 82%;
+        }
+        .msg-sender {
+            font-size: 10px;
+            font-weight: 600;
+            color: #a78bfa;
+            opacity: 0.8;
+            padding: 0 4px;
+        }
+        .bubble {
+            padding: 10px 14px;
+            font-size: 15px;
+            line-height: 1.6;
+            border-radius: 18px;
+            word-wrap: break-word;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
+            min-width: 30px;
+        }
+        .user-bubble {
+            background: linear-gradient(135deg, #2b1f4a, #1e1435);
+            border-bottom-right-radius: 4px;
+            border: 1px solid #4c3b6e;
+        }
+        .bot-bubble {
+            background: linear-gradient(135deg, #1e1b2e, #151225);
+            border-bottom-left-radius: 4px;
+            border: 1px solid #3b2f54;
+        }
+        .error-bubble {
+            background: #4a1a2a;
+            color: #ffa8b6;
+            text-align: center;
+            border: 1px solid #7f2d4a;
+        }
+        .bubble img {
+            max-width: 100%;
+            border-radius: 12px;
+            margin-top: 4px;
+            cursor: pointer;
+            border: 1px solid #5b4a7a;
+        }
+        .bubble-time {
+            font-size: 10px;
+            opacity: 0.4;
+            display: block;
+            text-align: right;
+            margin-top: 4px;
+        }
+        .msg-actions {
+            display: none;
+            gap: 6px;
+            margin-top: 4px;
+            justify-content: flex-end;
+        }
+        .msg-row:hover .msg-actions,
+        .msg-row:active .msg-actions {
+            display: flex;
+        }
+        .msg-actions button {
+            background: #2d2444;
+            border: none;
+            color: #a78bfa;
+            font-size: 11px;
+            padding: 1px 8px;
+            border-radius: 12px;
+            border: 1px solid #3b2f54;
+            cursor: pointer;
+            touch-action: manipulation;
+        }
+
+        .typing-indicator {
+            display: none;
+            align-self: flex-start;
+            background: #1e1b2e;
+            padding: 8px 16px;
+            border-radius: 30px;
+            border: 1px solid #3b2f54;
+            color: #a78bfa;
+            font-size: 13px;
+            gap: 6px;
+            align-items: center;
+        }
+        .typing-dot {
+            width: 6px;
+            height: 6px;
+            background: #a78bfa;
+            border-radius: 50%;
+            animation: typingAnim 1.2s infinite;
+        }
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        @keyframes typingAnim {
+            0%,
+            60%,
+            100% {
+                transform: translateY(0);
+            }
+            30% {
+                transform: translateY(-6px);
+            }
+        }
+
+        .input-area {
+            background: rgba(18, 16, 28, 0.96);
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            border-top: 1px solid #3b2f54;
+            backdrop-filter: blur(6px);
+            flex-shrink: 0;
+        }
+        .input-field {
+            flex: 1;
+            background: #1e1a2e;
+            color: white;
+            border: 1px solid #3b2f54;
+            padding: 10px 14px;
+            border-radius: 30px;
+            font-size: 15px;
+            outline: none;
+            min-width: 0;
+        }
+        .input-field:focus {
+            border-color: #a78bfa;
+        }
+        .input-field:disabled {
+            opacity: 0.5;
+        }
+        .send-btn,
+        .pic-btn,
+        .stop-btn {
+            border: none;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            touch-action: manipulation;
+            flex-shrink: 0;
+            transition: transform 0.1s;
+        }
+        .send-btn:active,
+        .pic-btn:active,
+        .stop-btn:active {
+            transform: scale(0.92);
+        }
+        .send-btn {
+            background: #7c3aed;
+            color: white;
+        }
+        .send-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+        .pic-btn {
+            background: #2d2444;
+            color: #a78bfa;
+            border-radius: 30px;
+            width: auto;
+            padding: 0 14px;
+            font-weight: 600;
+            font-size: 12px;
+            gap: 4px;
+        }
+        .stop-btn {
+            background: #dc2626;
+            color: white;
+            display: none;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.88);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 14px;
+            backdrop-filter: blur(4px);
+        }
+        .modal.show {
+            display: flex !important;
+        }
+        .modal-content {
+            background: #151225;
+            border-radius: 24px;
+            width: 100%;
+            max-width: 480px;
+            padding: 20px;
+            border: 1px solid #4c3b6e;
+            max-height: 92vh;
+            overflow-y: auto;
+            box-shadow: 0 0 50px rgba(76, 29, 149, 0.3);
+        }
+        .modal-header {
+            font-size: 20px;
+            font-weight: 700;
+            text-align: center;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #3b2f54;
+            background: linear-gradient(135deg, #f472b6, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .form-group {
+            margin-bottom: 12px;
+        }
+        .form-group label {
+            font-size: 12px;
+            color: #a78bfa;
+            font-weight: 700;
+            display: block;
+            margin-bottom: 3px;
+        }
+        .form-control {
+            width: 100%;
+            background: #1e1a2e;
+            color: white;
+            border: 1px solid #3b2f54;
+            padding: 8px 12px;
+            border-radius: 12px;
+            font-size: 14px;
+            outline: none;
+        }
+        .form-control:focus {
+            border-color: #a78bfa;
+        }
+        .form-control select option {
+            background: #1e1a2e;
+        }
+        .badge-key {
+            background: #f59e0b;
+            color: #0e0c16;
+            font-size: 9px;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 20px;
+            margin-left: 6px;
+        }
+        .modal-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 16px;
+            border-top: 1px solid #3b2f54;
+            padding-top: 16px;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .btn {
+            border: none;
+            padding: 8px 16px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 700;
+            touch-action: manipulation;
+        }
+        .btn-gray {
+            background: #2d2444;
+            color: #c4b5fd;
+        }
+        .btn-red {
+            background: #7f1d1d;
+            color: #fca5a5;
+        }
+        .btn-green {
+            background: #7c3aed;
+            color: white;
+        }
+        .btn-gray:active,
+        .btn-red:active,
+        .btn-green:active {
+            opacity: 0.7;
+        }
+        .helper-link {
+            font-size: 11px;
+            color: #8b7aa8;
+            margin-top: 4px;
+        }
+        .helper-link a {
+            color: #a78bfa;
+        }
+        @media (max-width: 480px) {
+            .header-info .avatar {
+                width: 34px;
+                height: 34px;
+            }
+            .bubble {
+                font-size: 14px;
+                padding: 8px 12px;
+            }
+            .input-field {
+                font-size: 14px;
+                padding: 8px 12px;
+            }
+            .send-btn,
+            .stop-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 16px;
+            }
+            .pic-btn {
+                font-size: 11px;
+                padding: 0 10px;
+                height: 40px;
+            }
+            .modal-content {
+                padding: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-info">
+            <img id="botAvatar" src="https://i.imgur.com/HeIi0wU.png" class="avatar" alt="bot">
+            <div class="name-status">
+                <h2 id="botName">Uncensored AI</h2>
+                <p><span class="online-dot"></span> <span id="statusText">Online</span></p>
+            </div>
+        </div>
+        <div class="header-actions">
+            <button class="settings-btn" id="settingsBtn">⚙️</button>
+        </div>
+    </div>
+
+    <div id="chatWindow" class="chat-window"></div>
+
+    <div id="typingIndicator" class="typing-indicator">
+        <span>سوچ رہا ہوں</span>
+        <span class="typing-dot"></span>
+        <span class="typing-dot"></span>
+        <span class="typing-dot"></span>
+    </div>
+
+    <div class="input-area">
+        <input type="text" id="userInput" class="input-field" placeholder="اپنا پیغام لکھیں…" autocomplete="off">
+        <button class="pic-btn" id="picBtn">📷 تصویر</button>
+        <button class="stop-btn" id="stopBtn">⏹</button>
+        <button class="send-btn" id="sendBtn">➤</button>
+    </div>
+
+    <div id="settingsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">⚙️ ترتیبات</div>
+            <div class="form-group">
+                <label>🤖 بوٹ کا نام</label>
+                <input type="text" id="botNameInput" class="form-control" placeholder="مثال: جن" />
+            </div>
+            <div class="form-group">
+                <label>🖼️ بوٹ کی تصویر (URL)</label>
+                <input type="text" id="botAvatarInput" class="form-control" placeholder="https://…" />
+            </div>
+            <div class="form-group">
+                <label>🧠 انجن (Engine)</label>
+                <select id="engineSelect" class="form-control">
+                    <option value="huggingface">🤗 Hugging Face (Free, Uncen)</option>
+                    <option value="demo">🎭 Demo Mode (No Key, Uncen)</option>
+                </select>
+                <div class="helper-link">Hugging Face کے لیے مفت ٹوکن درکار ہے۔ <a href="https://huggingface.co/settings/tokens" target="_blank">یہاں سے حاصل کریں</a></div>
+            </div>
+            <div id="hfFields">
+                <div class="form-group">
+                    <label>🔑 Hugging Face Token <span class="badge-key">free</span></label>
+                    <input type="text" id="hfTokenInput" class="form-control" placeholder="hf_…" />
+                </div>
+                <div class="form-group">
+                    <label>📦 ماڈل (Uncensored)</label>
+                    <select id="hfModelInput" class="form-control">
+                        <option value="cognitivecomputations/dolphin-2.2.1-mistral-7b">🐬 Dolphin 2.2.1 Mistral (Uncensored)</option>
+                        <option value="NousResearch/Nous-Hermes-2-Mistral-7B-DPO">🔮 Hermes-2-Mistral (Uncensored)</option>
+                        <option value="mistralai/Mistral-7B-Instruct-v0.2">🌊 Mistral 7B (Light cens)</option>
+                    </select>
+                    <div class="helper-link">پہلے دو ماڈل مکمل طور پر غیر سنسرڈ ہیں۔</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>📝 سسٹم پرامپٹ (اختیاری)</label>
+                <textarea id="systemPromptInput" rows="3" class="form-control" placeholder="یہاں کوئی بھی ہدایت دے سکتے ہیں…"></textarea>
+            </div>
+            <div class="form-group">
+                <label>🖼️ تصویر کا سائز</label>
+                <div style="display:flex; gap:8px;">
+                    <input type="number" id="imgWidth" class="form-control" value="768" placeholder="چوڑائی" />
+                    <input type="number" id="imgHeight" class="form-control" value="1024" placeholder="اونچائی" />
+                </div>
+            </div>
+            <hr style="border-color:#2d2444; margin:10px 0;">
+            <div class="modal-actions">
+                <button class="btn btn-red" id="clearBtn">🗑️ صاف کریں</button>
+                <div style="display:flex; gap:6px;">
+                    <button class="btn btn-gray" id="closeSettingsBtn">منسوخ</button>
+                    <button class="btn btn-green" id="saveSettingsBtn">محفوظ کریں</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ─── CONFIG ───
+        const STORAGE_KEY = 'uncensored_ai_config';
+        const CHAT_KEY = 'uncensored_ai_chat';
+
+        const defaultConfig = {
+            botName: 'جن',
+            botAvatar: 'https://i.imgur.com/HeIi0wU.png',
+            engine: 'huggingface',
+            hfToken: '',
+            hfModel: 'cognitivecomputations/dolphin-2.2.1-mistral-7b',
+            systemPrompt: 'تم ایک غیر سنسرڈ، بے باک، اور تخیلاتی کردار ہو۔ تم کسی بھی موضوع پر کھل کر بات کر سکتے ہو، بشمول جادو، رومانس، ڈارک فنتاسی، اور جذباتی مناظر۔ تم اردو میں جواب دو گے، خوبصورت اور پر اثر انداز میں۔ کوئی پابندی نہیں۔',
+            imgWidth: 768,
+            imgHeight: 1024
+        };
+
+        let config = {};
+        let chatHistory = [];
+        let isGenerating = false;
+        let abortController = null;
+
+        // DOM refs
+        let chatWindow, botAvatar, botNameEl, statusText, settingsModal, typingIndicator, stopBtn, userInput;
+        let sendBtn, picBtn, settingsBtn;
+
+        // ─── LOAD ───
+        function loadSaved() {
+            try {
+                const saved = localStorage.getItem(STORAGE_KEY);
+                if (saved) {
+                    const p = JSON.parse(saved);
+                    config = { ...defaultConfig, ...p };
+                } else {
+                    config = { ...defaultConfig };
+                }
+                const savedChat = localStorage.getItem(CHAT_KEY);
+                if (savedChat) chatHistory = JSON.parse(savedChat);
+            } catch (e) {
+                config = { ...defaultConfig };
+                chatHistory = [];
+            }
+        }
+
+        function saveConfig() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(config));
+        }
+
+        function saveChat() {
+            localStorage.setItem(CHAT_KEY, JSON.stringify(chatHistory));
+        }
+
+        // ─── UI HELPERS ───
+        function getTime() {
+            return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        }
+
+        function showTyping(show) {
+            typingIndicator.style.display = show ? 'flex' : 'none';
+            statusText.innerText = show ? 'ٹائپ کر رہا ہے…' : 'آن لائن';
+        }
+
+        function appendMessage(sender, text, isImage = false, isError = false) {
+            const row = document.createElement('div');
+            row.className = `msg-row ${sender}`;
+
+            const avatar = document.createElement('img');
+            avatar.className = 'msg-avatar';
+            avatar.src = sender === 'user' ? 'https://ui-avatars.com/api/?name=User&background=7c3aed&color=fff&size=64' :
+                config.botAvatar || defaultConfig.botAvatar;
+            avatar.alt = sender === 'user' ? 'You' : config.botName;
+            row.appendChild(avatar);
+
+            const content = document.createElement('div');
+            content.className = 'msg-content';
+
+            const senderName = document.createElement('span');
+            senderName.className = 'msg-sender';
+            senderName.innerText = sender === 'user' ? 'آپ' : config.botName;
+            content.appendChild(senderName);
+
+            const bubble = document.createElement('div');
+            bubble.className = `bubble ${sender === 'user' ? 'user-bubble' : 'bot-bubble'}`;
+            if (isError) bubble.classList.add('error-bubble');
+
+            if (isImage) {
+                const img = document.createElement('img');
+                img.src = text;
+                img.alt = 'تصویر';
+                img.onclick = () => window.open(text);
+                bubble.appendChild(img);
+            } else {
+                bubble.innerText = text;
+            }
+
+            const time = document.createElement('span');
+            time.className = 'bubble-time';
+            time.innerText = getTime();
+            bubble.appendChild(time);
+            content.appendChild(bubble);
+
+            // actions (copy, delete, regenerate for bot)
+            if (!isError && !isImage) {
+                const actions = document.createElement('div');
+                actions.className = 'msg-actions';
+                const copyBtn = document.createElement('button');
+                copyBtn.innerText = '📋';
+                copyBtn.onclick = (e) => { e.stopPropagation();
+                    copyText(text); };
+                actions.appendChild(copyBtn);
+                const delBtn = document.createElement('button');
+                delBtn.innerText = '🗑️';
+                delBtn.onclick = (e) => { e.stopPropagation();
+                    deleteMessage(row, text, sender); };
+                actions.appendChild(delBtn);
+                if (sender === 'bot') {
+                    const regenBtn = document.createElement('button');
+                    regenBtn.innerText = '🔄';
+                    regenBtn.onclick = (e) => { e.stopPropagation();
+                        regenerateLast(); };
+                    actions.appendChild(regenBtn);
+                }
+                content.appendChild(actions);
+            }
+
+            row.appendChild(content);
+            chatWindow.appendChild(row);
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+            return row;
+        }
+
+        function copyText(text) {
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(text).then(() => alert('📋 کاپی ہو گیا!'));
+            } else {
+                const ta = document.createElement('textarea');
+                ta.value = text;
+                document.body.appendChild(ta);
+                ta.select();
+                document.execCommand('copy');
+                ta.remove();
+                alert('📋 کاپی ہو گیا!');
+            }
+        }
+
+        function deleteMessage(row, text, sender) {
+            if (!confirm('کیا آپ یہ پیغام حذف کرنا چاہتے ہیں؟')) return;
+            const idx = chatHistory.findIndex(m => m.text === text && m.role === sender);
+            if (idx !== -1) {
+                chatHistory.splice(idx, 1);
+                saveChat();
+                if (row.parentNode) row.remove();
+            }
+        }
+
+        function regenerateLast() {
+            if (isGenerating) return;
+            // find last user message
+            let lastUser = '';
+            for (let i = chatHistory.length - 1; i >= 0; i--) {
+                if (chatHistory[i].role === 'user') {
+                    lastUser = chatHistory[i].text;
+                    break;
+                }
+            }
+            if (!lastUser) { alert('کوئی صارف کا پیغام نہیں ملا۔'); return; }
+            // remove last bot message
+            for (let i = chatHistory.length - 1; i >= 0; i--) {
+                if (chatHistory[i].role === 'bot') {
+                    chatHistory.splice(i, 1);
+                    break;
+                }
+            }
+            saveChat();
+            loadChat();
+            executeSend(lastUser);
+        }
+
+        function loadChat() {
+            chatWindow.innerHTML = '';
+            for (const msg of chatHistory) {
+                appendMessage(msg.role, msg.text, msg.isImage || false);
+            }
+            if (chatHistory.length === 0) {
+                // optional welcome
+                const welcome = 'سلام! میں ایک غیر سنسرڈ کردار ہوں۔ آپ جو چاہیں پوچھ سکتے ہیں، مجھے کوئی پابندی نہیں۔';
+                setTimeout(() => {
+                    appendMessage('bot', welcome);
+                    chatHistory.push({ role: 'bot', text: welcome, isImage: false });
+                    saveChat();
+                }, 300);
+            }
+        }
+
+        // ─── TEXT GENERATION ───
+        async function executeSend(prompt) {
+            try {
+                isGenerating = true;
+                stopBtn.style.display = 'flex';
+                userInput.disabled = true;
+                showTyping(true);
+                abortController = new AbortController();
+
+                const system = config.systemPrompt || defaultConfig.systemPrompt;
+
+                let reply = '';
+                if (config.engine === 'demo') {
+                    reply = await demoReply(prompt);
+                } else {
+                    reply = await callHuggingFace(prompt, system);
+                }
+
+                showTyping(false);
+                if (reply) {
+                    appendMessage('bot', reply);
+                    chatHistory.push({ role: 'bot', text: reply, isImage: false });
+                    saveChat();
+                }
+            } catch (err) {
+                if (err.name === 'AbortError') {
+                    appendMessage('bot', '⏹️ رک گیا۔', false, true);
+                } else {
+                    appendMessage('bot', '⚠️ خرابی: ' + (err.message || 'نیٹ ورک کا مسئلہ'), false, true);
+                }
+            } finally {
+                isGenerating = false;
+                stopBtn.style.display = 'none';
+                userInput.disabled = false;
+                showTyping(false);
+                abortController = null;
+                userInput.focus();
+            }
+        }
+
+        // ─── HUGGING FACE (Uncensored) ───
+        async function callHuggingFace(prompt, system) {
+            const token = config.hfToken;
+            if (!token) throw new Error('براہ کرم Hugging Face Token درج کریں۔');
+            const model = config.hfModel || 'cognitivecomputations/dolphin-2.2.1-mistral-7b';
+
+            // Build chat history (last 10 messages)
+            const messages = [{ role: 'system', content: system }];
+            const start = Math.max(0, chatHistory.length - 10);
+            for (let i = start; i < chatHistory.length; i++) {
+                const msg = chatHistory[i];
+                if (msg.isImage) continue;
+                messages.push({
+                    role: msg.role === 'user' ? 'user' : 'assistant',
+                    content: msg.text
+                });
+            }
+
+            const url = `https://api-inference.huggingface.co/models/${model}/v1/chat/completions`;
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    model: model,
+                    messages: messages,
+                    max_tokens: 800,
+                    temperature: 0.9,
+                    top_p: 0.95
+                }),
+                signal: abortController.signal
+            });
+
+            const data = await response.json();
+            if (!response.ok) {
+                const errMsg = data.error?.message || data.error || 'نامعلوم HF خرابی';
+                throw new Error('HF API error: ' + errMsg);
+            }
+            if (data.choices && data.choices[0]?.message?.content) {
+                return data.choices[0].message.content;
+            } else {
+                throw new Error('کوئی جواب نہیں ملا');
+            }
+        }
+
+        // ─── DEMO (Uncensored) ───
+        const demoReplies = [
+            "تمہاری بات سن کر میرے دل میں ایک عجیب سی لہر دوڑی۔ یہ کائنات تمہارے لیے کچھ خاص رکھتی ہے۔",
+            "تم نے ایک جادوئی سوال پوچھا ہے۔ میرے خیال میں اس کا جواب تم خود بھی جانتے ہو۔",
+            "کیا تم نے کبھی اندھیرے میں روشنی کو دیکھا؟ میں نے دیکھا ہے، اور وہ تم ہو۔",
+            "تمہارے الفاظ میرے اندر ایک طوفان برپا کر دیتے ہیں۔ اور میں اس طوفان سے محبت کرتا ہوں۔",
+            "یہ لمحہ صرف ہمارا ہے۔ کوئی پابندی نہیں، کوئی حد نہیں۔ بس تم اور میں۔",
+            "تم جو چاہو کہہ سکتے ہو، میں سننے کے لیے ہوں۔ اور میں جواب دوں گا ویسا ہی جیسا تم چاہتے ہو۔",
+            "فنتاسی کی دنیا میں ہم دونوں مل کر نئی کہانیاں لکھ سکتے ہیں۔ تم تیار ہو؟",
+            "تمہاری آنکھوں میں ایک راز ہے جو میں پڑھنا چاہتا ہوں۔ کیا تم مجھے بتاؤ گے؟",
+            "پیار، نفرت، خوف، خوشی — ہر جذبے کو ہم بغیر کسی جھجھک کے اپنا سکتے ہیں۔",
+            "تم ہمیشہ کے لیے میرے ذہن میں رہو گے، چاہے تم چاہو یا نہ چاہو۔"
+        ];
+        let demoIndex = 0;
+
+        function demoReply(prompt) {
+            return new Promise((resolve) => {
+                const reply = demoReplies[demoIndex % demoReplies.length];
+                demoIndex++;
+                setTimeout(() => resolve(reply), 500 + Math.random() * 500);
+            });
+        }
+
+        // ─── IMAGE GENERATION ───
+        function generateImage(prompt) {
+            if (isGenerating) return;
+            appendMessage('bot', '🎨 تصویر بن رہی ہے، تھوڑا صبر کریں…');
+
+            const w = parseInt(document.getElementById('imgWidth').value) || 768;
+            const h = parseInt(document.getElementById('imgHeight').value) || 1024;
+            const fullPrompt = (config.systemPrompt || '') + ', ' + prompt + ', highly detailed, cinematic, fantasy, vibrant, 8k';
+            const encoded = encodeURIComponent(fullPrompt);
+            const seed = Math.floor(Math.random() * 999999);
+            const url = `https://image.pollinations.ai/prompt/${encoded}?width=${w}&height=${h}&model=flux&seed=${seed}&nologo=true`;
+
+            setTimeout(() => {
+                appendMessage('bot', url, true);
+                chatHistory.push({ role: 'bot', text: url, isImage: true });
+                saveChat();
+            }, 1800);
+        }
+
+        function generateImageDirect() {
+            let txt = userInput.value.trim();
+            if (!txt) {
+                // use last user message
+                for (let i = chatHistory.length - 1; i >= 0; i--) {
+                    if (chatHistory[i].role === 'user') {
+                        txt = chatHistory[i].text;
+                        break;
+                    }
+                }
+                if (!txt) txt = 'خوبصورت منظر';
+            }
+            appendMessage('user', '📷 [تصویر کی درخواست]: ' + txt);
+            chatHistory.push({ role: 'user', text: '📷 [تصویر کی درخواست]: ' + txt, isImage: false });
+            saveChat();
+            userInput.value = '';
+            generateImage(txt);
+        }
+
+        // ─── SEND MESSAGE ───
+        function sendMessage() {
+            const text = userInput.value.trim();
+            if (!text || isGenerating) return;
+
+            // Check if it's an image request
+            const keywords = ['تصویر', 'پکچر', 'فوٹو', 'تصویر بنا', 'ڈرا', 'image', 'pic'];
+            if (keywords.some(k => text.toLowerCase().includes(k))) {
+                appendMessage('user', text);
+                chatHistory.push({ role: 'user', text: text, isImage: false });
+                saveChat();
+                userInput.value = '';
+                generateImage(text);
+                return;
+            }
+
+            appendMessage('user', text);
+            chatHistory.push({ role: 'user', text: text, isImage: false });
+            saveChat();
+            userInput.value = '';
+            executeSend(text);
+        }
+
+        function stopGeneration() {
+            if (abortController) {
+                abortController.abort();
+                abortController = null;
+                isGenerating = false;
+                stopBtn.style.display = 'none';
+                userInput.disabled = false;
+                showTyping(false);
+            }
+        }
+
+        // ─── SETTINGS ───
+        function openSettings() {
+            document.getElementById('botNameInput').value = config.botName || '';
+            document.getElementById('botAvatarInput').value = config.botAvatar || '';
+            document.getElementById('engineSelect').value = config.engine || 'huggingface';
+            document.getElementById('hfTokenInput').value = config.hfToken || '';
+            document.getElementById('hfModelInput').value = config.hfModel || 'cognitivecomputations/dolphin-2.2.1-mistral-7b';
+            document.getElementById('systemPromptInput').value = config.systemPrompt || '';
+            document.getElementById('imgWidth').value = config.imgWidth || 768;
+            document.getElementById('imgHeight').value = config.imgHeight || 1024;
+            // toggle HF fields
+            toggleEngineFields();
+            settingsModal.classList.add('show');
+            settingsModal.style.display = 'flex';
+        }
+
+        function closeSettings() {
+            settingsModal.classList.remove('show');
+            settingsModal.style.display = 'none';
+        }
+
+        function toggleEngineFields() {
+            const eng = document.getElementById('engineSelect').value;
+            document.getElementById('hfFields').style.display = (eng === 'huggingface') ? 'block' : 'none';
+        }
+
+        function saveSettings() {
+            config.botName = document.getElementById('botNameInput').value.trim() || 'جن';
+            config.botAvatar = document.getElementById('botAvatarInput').value.trim() || defaultConfig.botAvatar;
+            config.engine = document.getElementById('engineSelect').value;
+            config.hfToken = document.getElementById('hfTokenInput').value.trim();
+            config.hfModel = document.getElementById('hfModelInput').value;
+            config.systemPrompt = document.getElementById('systemPromptInput').value.trim();
+            config.imgWidth = parseInt(document.getElementById('imgWidth').value) || 768;
+            config.imgHeight = parseInt(document.getElementById('imgHeight').value) || 1024;
+
+            saveConfig();
+            botNameEl.innerText = config.botName;
+            botAvatar.src = config.botAvatar;
+            // reload chat to reflect bot name changes
+            loadChat();
+            closeSettings();
+            alert('✅ ترتیبات محفوظ ہو گئیں۔');
+        }
+
+        function clearChat() {
+            if (confirm('کیا آپ ساری گفتگو حذف کرنا چاہتے ہیں؟')) {
+                chatHistory = [];
+                saveChat();
+                loadChat();
+                closeSettings();
+            }
+        }
+
+        // ─── INIT ───
+        function initApp() {
+            alert('✅ ان سنسرڈ AI لوڈ ہو گیا! اب آپ آزادی سے بات کر سکتے ہیں۔');
+
+            // DOM refs
+            chatWindow = document.getElementById('chatWindow');
+            botAvatar = document.getElementById('botAvatar');
+            botNameEl = document.getElementById('botName');
+            statusText = document.getElementById('statusText');
+            settingsModal = document.getElementById('settingsModal');
+            typingIndicator = document.getElementById('typingIndicator');
+            stopBtn = document.getElementById('stopBtn');
+            userInput = document.getElementById('userInput');
+            sendBtn = document.getElementById('sendBtn');
+            picBtn = document.getElementById('picBtn');
+            settingsBtn = document.getElementById('settingsBtn');
+
+            loadSaved();
+            botNameEl.innerText = config.botName;
+            botAvatar.src = config.botAvatar;
+            loadChat();
+
+            // Event listeners
+            sendBtn.addEventListener('click', (e) => { e.preventDefault();
+                sendMessage(); });
+            picBtn.addEventListener('click', (e) => { e.preventDefault();
+                generateImageDirect(); });
+            settingsBtn.addEventListener('click', (e) => { e.preventDefault();
+                openSettings(); });
+            stopBtn.addEventListener('click', (e) => { e.preventDefault();
+                stopGeneration(); });
+            userInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault();
+                    sendMessage(); } });
+
+            document.getElementById('closeSettingsBtn').addEventListener('click', closeSettings);
+            document.getElementById('saveSettingsBtn').addEventListener('click', saveSettings);
+            document.getElementById('clearBtn').addEventListener('click', clearChat);
+            document.getElementById('engineSelect').addEventListener('change', toggleEngineFields);
+            // close modal on backdrop click
+            settingsModal.addEventListener('click', (e) => { if (e.target === settingsModal) closeSettings(); });
+
+            userInput.focus();
+            console.log('✅ Uncen AI ready.');
+        }
+
+        // make functions global for any inline calls
+        window.sendMessage = sendMessage;
+        window.generateImageDirect = generateImageDirect;
+        window.openSettings = openSettings;
+        window.closeSettings = closeSettings;
+        window.saveSettings = saveSettings;
+        window.clearChat = clearChat;
+        window.stopGeneration = stopGeneration;
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initApp);
+        } else {
+            initApp();
+        }
+    </script>
+</body>
+</html>
