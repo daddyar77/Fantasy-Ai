@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultimate Chat</title>
+    <style>
+        body { background:#0b0a12; color:#fff; font-family:sans-serif; padding:20px; }
+        button { padding:12px 20px; font-size:18px; margin:5px; border:none; border-radius:30px; background:#7c3aed; color:#fff; cursor:pointer; touch-action:manipulation; }
+        button:active { transform:scale(0.95); }
+        #chat { margin-top:20px; max-height:70vh; overflow-y:auto; }
+        .msg { background:#1e1a2e; border-radius:12px; padding:10px; margin:6px 0; }
+        .user { background:#2b1f4a; align-self:flex-end; }
+        .bot { background:#1e1b2e; }
+        .input-area { display:flex; gap:8px; margin-top:20px; position:sticky; bottom:0; background:#0b0a12; padding:10px 0; }
+        input { flex:1; padding:12px; border-radius:30px; border:1px solid #3b2f54; background:#1e1a2e; color:#fff; font-size:16px; }
+        #confirm { background:#34d399; color:#000; text-align:center; padding:8px; font-weight:bold; border-radius:8px; margin-bottom:10px; }
+    </style>
+</head>
+<body>
+    <div id="confirm">✅ Script Loaded Successfully! Tap buttons to test.</div>
+    <div style="display:flex; gap:8px;">
+        <button onclick="alert('Test button works!')">🧪 Test</button>
+        <button onclick="document.getElementById('chat').innerHTML += '<div class=\'msg bot\'>⚙️ Settings clicked</div>'">⚙️ Settings</button>
+    </div>
+    <div id="chat"></div>
+    <div class="input-area">
+        <input id="input" placeholder="Type here..." onkeydown="if(event.key==='Enter') send()">
+        <button onclick="send()">➤ Send</button>
+        <button onclick="imageRequest()">📷 Pic</button>
+    </div>
+    <script>
+        function send() {
+            var input = document.getElementById('input');
+            var text = input.value.trim();
+            if (!text) return;
+            var chat = document.getElementById('chat');
+            chat.innerHTML += '<div class="msg user">' + text + '</div>';
+            input.value = '';
+            // auto-reply (demo)
+            setTimeout(function() {
+                chat.innerHTML += '<div class="msg bot">✨ Yeh hai tumhara jawab (demo).</div>';
+                chat.scrollTop = chat.scrollHeight;
+            }, 500);
+        }
+        function imageRequest() {
+            var chat = document.getElementById('chat');
+            chat.innerHTML += '<div class="msg bot">🎨 Image generated: <a href="#" onclick="alert(\'Image would open here\')">[View]</a></div>';
+        }
+        // auto first message
+        setTimeout(function() {
+            document.getElementById('chat').innerHTML += '<div class="msg bot">👋 Salam! Main ek uncensored AI hoon. Kuch bhi poochho.</div>';
+        }, 300);
+    </script>
+</body>
+</html>
