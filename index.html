@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Roleplay AI · Final</title>
+    <title>Roleplay AI · Final (Click Fixed)</title>
     <style>
+        /* ─── All CSS (same as before, unchanged) ─── */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -705,8 +706,8 @@
             </div>
         </div>
         <div class="header-actions">
-            <button class="test-btn" id="testBtn">🧪 Test</button>
-            <button class="settings-btn" id="settingsBtn">⚙️</button>
+            <button class="test-btn" onclick="testFunction()">🧪 Test</button>
+            <button class="settings-btn" onclick="openSettings()">⚙️</button>
         </div>
     </div>
 
@@ -724,10 +725,5 @@
     <!-- ===== INPUT ===== -->
     <div class="input-area">
         <input type="text" id="userInput" class="input-field" placeholder="Type your message…" autocomplete="off">
-        <button class="pic-btn" id="picBtn">📷 Pic</button>
-        <button class="stop-btn" id="stopBtn">⏹</button>
-        <button class="send-btn" id="sendBtn">➤</button>
-    </div>
-
-    <!-- ===== SETTINGS MODAL ===== -->
-    <div id="setti
+        <button class="pic-btn" onclick="generateImageDirect()">📷 Pic</button>
+        <button class="stop-btn" id="stopBtn" onclick="stopGeneration()"
