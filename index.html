@@ -697,7 +697,7 @@
 <body onload="initApp()">
     <div class="header">
         <div class="header-info">
-            <img id="botAvatar" src="https://i.imgur.com/HeIi0wU.png" class="avatar" alt="bot">
+            <img id="botAvatar" src="[https://i.imgur.com/HeIi0wU.png](https://i.imgur.com/HeIi0wU.png)" class="avatar" alt="bot">
             <div class="name-status">
                 <h2 id="botName">Roleplay AI</h2>
                 <p><span class="online-dot"></span> <span id="statusText">Online</span></p>
@@ -789,9 +789,9 @@
                     <option value="demo">🎭 Demo Mode (No Key)</option>
                 </select>
                 <div class="helper-link" style="margin-top:4px;">
-                    💡 <a href="https://openrouter.ai/keys" target="_blank">OpenRouter</a> ·
-                    <a href="https://aistudio.google.com/apikey" target="_blank">Gemini</a> ·
-                    <a href="https://huggingface.co/settings/tokens" target="_blank">Hugging Face</a> — all have free tiers.
+                    💡 <a href="[https://openrouter.ai/keys](https://openrouter.ai/keys)" target="_blank">OpenRouter</a> ·
+                    <a href="[https://aistudio.google.com/apikey](https://aistudio.google.com/apikey)" target="_blank">Gemini</a> ·
+                    <a href="[https://huggingface.co/settings/tokens](https://huggingface.co/settings/tokens)" target="_blank">Hugging Face</a> — all have free tiers.
                 </div>
             </div>
 
@@ -824,7 +824,7 @@
                 <div class="form-group">
                     <label>🔑 OpenRouter API Key <span class="badge-key">free</span> :</label>
                     <input type="text" id="orKeyInput" class="form-control" placeholder="sk-or-…">
-                    <div class="helper-link">Get your free key at <a href="https://openrouter.ai/keys" target="_blank">openrouter.ai/keys</a></div>
+                    <div class="helper-link">Get your free key at <a href="[https://openrouter.ai/keys](https://openrouter.ai/keys)" target="_blank">openrouter.ai/keys</a></div>
                 </div>
                 <div class="form-group">
                     <label>📦 Free Models <span class="badge-free">FREE</span> (up‑to‑date):</label>
@@ -885,7 +885,7 @@
                 <div class="form-group">
                     <label>🔑 Hugging Face Token <span class="badge-key">free</span> :</label>
                     <input type="text" id="hfTokenInput" class="form-control" placeholder="hf_…">
-                    <div class="helper-link">Get token at <a href="https://huggingface.co/settings/tokens" target="_blank">huggingface.co/settings/tokens</a></div>
+                    <div class="helper-link">Get token at <a href="[https://huggingface.co/settings/tokens](https://huggingface.co/settings/tokens)" target="_blank">huggingface.co/settings/tokens</a></div>
                 </div>
                 <div class="form-group">
                     <label>📦 HF Image Model:</label>
@@ -953,19 +953,19 @@
         // ─── DEFAULT CONFIG ───
         var defaultConfig = {
             botName: 'Seraphina',
-            botAvatar: 'https://i.imgur.com/HeIi0wU.png',
+            botAvatar: '[https://i.imgur.com/HeIi0wU.png](https://i.imgur.com/HeIi0wU.png)',
             personality: 'Witty, mysterious, deeply empathetic',
             scenario: 'A magical realm where emotions shape reality',
             charNote: 'Speaks with poetic elegance, often uses metaphors. Protective and curious.',
             firstMsg: '✨ Greetings, dear one. The stars have whispered your name. What brings you to my realm?',
             userName: 'You',
-            userAvatar: 'https://ui-avatars.com/api/?name=You&background=7c3aed&color=fff&size=64',
+            userAvatar: '[https://ui-avatars.com/api/?name=You&background=7c3aed&color=fff&size=64](https://ui-avatars.com/api/?name=You&background=7c3aed&color=fff&size=64)',
             engine: 'openrouter',
             apiKey: '',
             geminiModel: 'gemini-2.5-flash',
             safetyLevel: 'none',
             orKey: '',
-            orModel: 'cognitivecomputations/dolphin3.0-r1-mistral-24b:free',
+            orModel: 'google/gemini-2.5-flash-001:free',
             imgProvider: 'pollinations',
             hfToken: '',
             hfModel: 'stabilityai/stable-diffusion-2-1',
@@ -1089,8 +1089,8 @@
             }
             avatarImg.onerror = function() {
                 this.src = sender === 'user' ?
-                    'https://ui-avatars.com/api/?name=User&background=7c3aed&color=fff&size=64' :
-                    'https://ui-avatars.com/api/?name=Bot&background=4c3b6e&color=fff&size=64';
+                    '[https://ui-avatars.com/api/?name=User&background=7c3aed&color=fff&size=64](https://ui-avatars.com/api/?name=User&background=7c3aed&color=fff&size=64)' :
+                    '[https://ui-avatars.com/api/?name=Bot&background=4c3b6e&color=fff&size=64](https://ui-avatars.com/api/?name=Bot&background=4c3b6e&color=fff&size=64)';
             };
             row.appendChild(avatarImg);
 
@@ -1288,11 +1288,9 @@
             document.getElementById('geminiModelInput').value = config.geminiModel || 'gemini-2.5-flash';
             document.getElementById('safetyLevel').value = config.safetyLevel || 'none';
             document.getElementById('orKeyInput').value = config.orKey || '';
-            document.getElementById('orModelInput').value = config.orModel ||
-                'cognitivecomputations/dolphin3.0-r1-mistral-24b:free';
+            document.getElementById('orModelInput').value = config.orModel || 'google/gemini-2.5-flash-001:free';
             document.getElementById('hfTextTokenInput').value = config.hfTextToken || '';
-            document.getElementById('hfTextModelInput').value = config.hfTextModel ||
-                'mistralai/Mistral-7B-Instruct-v0.3';
+            document.getElementById('hfTextModelInput').value = config.hfTextModel || 'mistralai/Mistral-7B-Instruct-v0.3';
             document.getElementById('imgProvider').value = config.imgProvider || 'pollinations';
             document.getElementById('hfTokenInput').value = config.hfToken || '';
             document.getElementById('hfModelInput').value = config.hfModel || 'stabilityai/stable-diffusion-2-1';
@@ -1584,7 +1582,7 @@
                 ]
             };
 
-            var url = 'https://generativelanguage.googleapis.com/v1beta/models/' + config.geminiModel +
+            var url = '[https://generativelanguage.googleapis.com/v1beta/models/](https://generativelanguage.googleapis.com/v1beta/models/)' + config.geminiModel +
                 ':generateContent?key=' + config.apiKey;
             var response = await fetch(url, {
                 method: 'POST',
@@ -1611,7 +1609,7 @@
                 messages.push({ role: msg.role, content: msg.text });
             }
 
-            var response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+            var response = await fetch('[https://openrouter.ai/api/v1/chat/completions](https://openrouter.ai/api/v1/chat/completions)', {
                 method: 'POST',
                 headers: {
                     'Authorization': 'Bearer ' + config.orKey,
@@ -1652,9 +1650,7 @@
                 messages.push({ role: msg.role === 'user' ? 'user' : 'assistant', content: msg.text });
             }
 
-            // Updated Endpoint: /v1/chat/completions
-            var url = 'https://api-inference.huggingface.co/models/' + model + '/v1/chat/completions';
-            
+            var url = '[https://api-inference.huggingface.co/models/](https://api-inference.huggingface.co/models/)' + model + '/v1/chat/completions';
             var response = await fetch(url, {
                 method: 'POST',
                 headers: {
@@ -1672,11 +1668,9 @@
 
             var data = await response.json();
             if (!response.ok) {
-                var errMsg = data.error?.message || data.error || 'Unknown HF error';
+                var errMsg = (data.error && data.error.message) ? data.error.message : (data.error || 'Unknown HF error');
                 throw new Error('HF Text API error: ' + errMsg);
             }
-            
-            // Extracts message standard format
             if (data.choices && data.choices[0].message.content) {
                 return data.choices[0].message.content;
             } else {
@@ -1702,7 +1696,7 @@
             var provider = config.imgProvider || 'pollinations';
 
             if (provider === 'pollinations') {
-                var url = 'https://image.pollinations.ai/prompt/' + encoded + '?width=' + w + '&height=' + h +
+                var url = '[https://image.pollinations.ai/prompt/](https://image.pollinations.ai/prompt/)' + encoded + '?width=' + w + '&height=' + h +
                     '&model=flux&seed=' + seed + '&nologo=true';
                 setTimeout(function() {
                     appendMessage('bot', url, true);
@@ -1718,7 +1712,7 @@
                 var model = config.hfModel || 'stabilityai/stable-diffusion-2-1';
                 generateHuggingFaceImage(fullPrompt, model, w, h);
             } else if (provider === 'freeimage') {
-                var freeUrl = 'https://image.pollinations.ai/prompt/' + encoded + '?width=' + w + '&height=' + h +
+                var freeUrl = '[https://image.pollinations.ai/prompt/](https://image.pollinations.ai/prompt/)' + encoded + '?width=' + w + '&height=' + h +
                     '&model=flux&seed=' + seed + '&nologo=true';
                 setTimeout(function() {
                     appendMessage('bot', freeUrl, true);
@@ -1731,7 +1725,7 @@
 
         async function generateHuggingFaceImage(prompt, model, width, height) {
             try {
-                var url = 'https://api-inference.huggingface.co/models/' + model;
+                var url = '[https://api-inference.huggingface.co/models/](https://api-inference.huggingface.co/models/)' + model;
                 var payload = {
                     inputs: prompt,
                     parameters: {
@@ -1772,4 +1766,19 @@
             if (!userInput) return;
             var txt = userInput.value.trim();
             if (!txt) {
-                for (var i =
+                for (var i = chatHistory.length - 1; i >= 0; i--) {
+                    if (chatHistory[i].role === 'user') {
+                        txt = chatHistory[i].text;
+                        break;
+                    }
+                }
+                if (!txt) txt = 'beautiful portrait aesthetic';
+            }
+            appendMessage('user', '🎨 [Image request]: ' + txt);
+            chatHistory.push({ role: 'user', text: '🎨 [Image request]: ' + txt, isImage: false });
+            localStorage.setItem(CHAT_KEY, JSON.stringify(chatHistory));
+            userInput.value = '';
+            generateImage(txt);
+        }
+
+        // ─── TEST ──
