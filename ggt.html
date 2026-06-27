@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="ur">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Roleplay AI · Uncen</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background: #0e0c16;
+            color: #e5e7eb;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Confirmation Banner */
+        #confirmBanner {
+            background: linear-gradient(90deg, #34d399, #10b981);
+            color: #000;
+            text-align: center;
+            padding: 8px;
+            font-weight: 700;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+            flex-shrink: 0;
+            box-shadow: 0 2px 10px rgba(16, 185, 129, 0.3);
+        }
+
+        /* Character Selector */
+        #charSelector {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px 16px 90px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            background: radial-gradient(circle at 50% 0%, #1a1625, #0e0c16 80%);
+        }
+        #charSelector h2 {
+            text-align: center;
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #f472b6, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 4px;
+        }
+        #charSelector .sub {
+            text-align: center;
+            color: #8b7aa8;
+            font-size: 13px;
+            margin-top: -6px;
+            margin-bottom: 8px;
+        }
+        .char-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 14px;
+        }
+        .char-card {
+            background: #1a1625;
+            border-radius: 20px;
+            padding: 16px 12px;
+            text-align: center;
+            border: 1px solid #3b2f54;
+            cursor: pointer;
+            touch-action: manipulation;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+        }
+        .char-card:active {
+            transform: scale(0.95);
+            border-color: #a78bfa;
+            box-shadow: 0 0 20px rgba(167, 139, 250, 0.2);
+        }
+        .char-card img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #4c3b6e;
+            margin-bottom: 8px;
+            transition: border 0.2s;
+        }
+        .char-card:active img {
+            border-color: #a78bfa;
+        }
+        .char-card .name {
+            font-weight: 700;
+            font-size: 16px;
+            color: #e5e7eb;
+        }
+        .char-card .desc {
+            font-size: 12px;
+            color: #8b7aa8;
+            margin-top: 4px;
+            line-height: 1.3;
+        }
+
+        /* Chat Screen */
+        #chatScreen {
+            flex: 1;
+            display: none;
+            flex-direction: column;
+            background: #0e0c16;
+        }
+
+        /* Chat Header */
+        .chat-header {
+            background: rgba(18, 16, 28, 0.95);
+            padding: 10px 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid #3b2f54;
+            flex-shrink: 0;
+            backdrop-filter: blur(8px);
+        }
+        .chat-header .back-btn {
+            background: none;
+            border: none;
+            color: #a78bfa;
+            font-size: 22px;
+            cursor: pointer;
+            touch-action: manipulation;
+            padding: 0 4px;
+        }
+        .chat-header .back-btn:active {
+            opacity: 0.6;
+        }
+        .chat-header .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #a78bfa;
+        }
+        .chat-header .info {
+            flex: 1;
+        }
+        .chat-header .info h2 {
+            font-size: 17px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #f472b6, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .chat-header .info p {
+            font-size: 11px;
+            color: #a78bfa;
+        }
+        .chat-header .test-btn {
+            background: #34d399;
+            color: #000;
+            border: none;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 12px;
+            cursor: pointer;
+            touch-action: manipulation;
+        }
+        .chat-header .test-btn:active {
+            background: #6ee7b7;
+        }
+
+        /* Chat Window */
+        #chatWindow {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px 14px 90px 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            background: radial-gradient(circle at 50% 0%, #16132a, #0e0c16 80%);
+        }
+
+        /* Messages */
+        .msg {
+            padding: 10px 16px;
+            border-radius: 18px;
+            max-width: 88%;
+            word-wrap: break-word;
+            line-height: 1.5;
+            font-size: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+            animation: fadeIn 0.3s ease;
+        }
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(8px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        .msg.user {
+            background: #2b1f4a;
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
+            border: 1px solid #4c3b6e;
+        }
+        .msg.bot {
+            background: #1e1b2e;
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+            border: 1px solid #3b2f54;
+        }
+        .msg .time {
+            font-size: 10px;
+            opacity: 0.4;
+            display: block;
+            text-align: right;
+            margin-top: 4px;
+        }
+        .msg img {
+            max-width: 100%;
+            border-radius: 12px;
+            margin-top: 4px;
+            border: 1px solid #5b4a7a;
+            cursor: pointer;
+            display: block;
+        }
+
+        /* Fixed Input Area */
+        .input-area {
+            background: rgba(18, 16, 28, 0.96);
+            padding: 10px 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-top: 1px solid #3b2f54;
+            flex-shrink: 0;
+            backdrop-filter: blur(6px);
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 10;
+        }
+        .input-area input {
+            flex: 1;
+            padding: 10px 16px;
+            border-radius: 30px;
+            border: 1px solid #3b2f54;
+            background: #1e1a2e;
+            color: #fff;
+            font-size: 15px;
+            outline: none;
+            transition: border 0.3s;
+            min-width: 0;
+        }
+        .input-area input:focus {
+            border-color: #a78bfa;
+        }
+        .input-area input::placeholder {
+            color: #5b4a7a;
+        }
+        .input-area button {
+            border: none;
+            border-radius: 50%;
+            width: 46px;
+            height: 46px;
+            font-size: 18px;
+            cursor: pointer;
+            touch-action: manipulation;
+            flex-shrink: 0;
+            transition: transform 0.1s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .input-area button:active {
+            transform: scale(0.92);
+        }
+        .input-area .send-btn {
+            background: #7c3aed;
+            color: #fff;
+        }
+        .input-area .send-btn:active {
+            background: #a78bfa;
+        }
+        .input-area .pic-btn {
+            background: #2d2444;
+            color: #a78bfa;
+            border-radius: 30px;
+            width: auto;
+            padding: 0 16px;
+            font-weight: 600;
+            font-size: 13px;
+            gap: 4px;
+        }
+        .input-area .pic-btn:active {
+            background: #4c3b6e;
+        }
+
+        /* Loading Modal */
+        #loadingModal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.75);
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+            backdrop-filter: blur(4px);
+        }
+        #loadingModal .spinner-box {
+            background: #1a1625;
+            padding: 30px 36px;
+            border-radius: 24px;
+            border: 1px solid #4c3b6e;
+            text-align: center;
+            box-shadow: 0 0 60px rgba(76, 29, 149, 0.3);
+        }
+        #loadingModal .spinner-box .spinner {
+            width: 44px;
+            height: 44px;
+            border: 4px solid #3b2f54;
+            border-top: 4px solid #a78bfa;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 14px auto;
+        }
+        @keyframes spin { 0%{transform:rotate(0)} 100%{transform:rotate(360deg)} }
+        #loadingModal .spinner-box p {
+            color: #c4b5fd;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .char-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
+            .char-card img { width: 60px; height: 60px; }
+            .char-card { padding: 12px 8px; }
+            .input-area input { font-size: 14px; padding: 8px 12px; }
+            .input-area button { width: 40px; height: 40px; font-size: 16px; }
+            .input-area .pic-btn { font-size: 11px; padding: 0 12px; height: 40px; }
+            .chat-header .back-btn { font-size: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Confirmation Banner -->
+    <div id="confirmBanner">✅ Script Loaded Successfully! Select a character to start.</div>
+
+    <!-- Character Selector -->
+    <div id="charSelector">
+        <h2>✨ Choose Your Companion</h2>
+        <p class="sub">Tap a character to begin chatting</p>
+        <div class="char-grid" id="charGrid"></div>
+    </div>
+
+    <!-- Chat Screen -->
+    <div id="chatScreen">
+        <div class="chat-header">
+            <button class="back-btn" onclick="goBack()">‹</button>
+            <img id="chatAvatar" src="" class="avatar" alt="char">
+            <div class="info">
+                <h2 id="chatName">Character</h2>
+                <p id="chatStatus">Online</p>
+            </div>
+            <button class="test-btn" onclick="testFunction()">🧪 Test</button>
+        </div>
+        <div id="chatWindow"></div>
+    </div>
+
+    <!-- Fixed Input Area (outside chatScreen) -->
+    <div class="input-area" id="inputArea" style="display:none;">
+        <input id="userInput" type="text" placeholder="Roman Urdu / English..." autocomplete="off" onkeydown="if(event.key==='Enter') sendMessage()">
+        <button class="pic-btn" onclick="generateImage()">📷 Pic</button>
+        <button class="send-btn" onclick="sendMessage()">➤</button>
+    </div>
+
+    <!-- Loading Modal -->
+    <div id="loadingModal">
+        <div class="spinner-box">
+            <div class="spinner"></div>
+            <p>🤔 Soch raha hoon...</p>
+        </div>
+    </div>
+
+    <script>
+        // ─── CHARACTER DATA ───
+        const characters = [{
+            id: 1,
+            name: 'Aisha',
+            image: 'https://i.pravatar.cc/150?img=1',
+            personality: 'Witty, romantic, poetic',
+            scenario: 'A magical garden at midnight',
+            note: 'Speaks in Urdu poetry, loves nature metaphors.',
+            firstMsg: '🌙 Salam, meri jaan! Chandni raat mein tumhara intezaar tha. Kya haal hai?'
+        }, {
+            id: 2,
+            name: 'Zayn',
+            image: 'https://i.pravatar.cc/150?img=3',
+            personality: 'Mysterious, intense, philosophical',
+            scenario: 'A cyberpunk city under neon lights',
+            note: 'Speaks with cryptic wisdom, often uses English.',
+            firstMsg: '🔥 Hey. The city never sleeps, and neither do I. What brings you here?'
+        }, {
+            id: 3,
+            name: 'Laila',
+            image: 'https://i.pravatar.cc/150?img=5',
+            personality: 'Sassy, bold, uncensored',
+            scenario: 'A desert oasis at sunset',
+            note: 'Direct, fearless, uses Roman Urdu and English.',
+            firstMsg: '✨ Ohho! Finally someone interesting. Batao, kya chahte ho?'
+        }, {
+            id: 4,
+            name: 'Rohan',
+            image: 'https://i.pravatar.cc/150?img=7',
+            personality: 'Calm, wise, caring',
+            scenario: 'A quiet library with ancient books',
+            note: 'Soft spoken, gives deep advice.',
+            firstMsg: '📚 Welcome, seeker. I was expecting you. Sit down and tell me your story.'
+        }, {
+            id: 5,
+            name: 'Sara',
+            image: 'https://i.pravatar.cc/150?img=10',
+            personality: 'Funny, energetic, chaotic',
+            scenario: 'A colorful carnival at night',
+            note: 'Loves jokes, breaks the fourth wall.',
+            firstMsg: '🎉 Yay! You came! Let\'s do something crazy. What\'s your wildest fantasy?'
+        }];
+
+        // ─── CONFIG ───
+        let config = {
+            botName: 'AI',
+            botAvatar: '',
+            personality: '',
+            scenario: '',
+            note: '',
+            firstMsg: '',
+            engine: 'pollinations'
+        };
+        let chatHistory = [];
+        let currentChar = null;
+        let isGenerating = false;
+
+        // ─── LOAD / SAVE ───
+        function loadSaved() {
+            try {
+                const saved = localStorage.getItem('rp_config');
+                if (saved) config = JSON.parse(saved);
+                const savedChat = localStorage.getItem('rp_chat');
+                if (savedChat) chatHistory = JSON.parse(savedChat);
+            } catch (e) { /* ignore */ }
+        }
+
+        function saveConfig() {
+            localStorage.setItem('rp_config', JSON.stringify(config));
+        }
+
+        function saveChat() {
+            localStorage.setItem('rp_chat', JSON.stringify(chatHistory));
+        }
+
+        // ─── UI ───
+        function getTime() {
+            return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        }
+
+        function showLoading(show) {
+            document.getElementById('loadingModal').style.display = show ? 'flex' : 'none';
+        }
+
+        function appendMessage(sender, text, isImage = false) {
+            const chat = document.getElementById('chatWindow');
+            const div = document.createElement('div');
+            div.className = `msg ${sender}`;
+            if (isImage) {
+                const img = document.createElement('img');
+                img.src = text;
+                img.onclick = () => window.open(text, '_blank');
+                div.appendChild(img);
+            } else {
+                div.innerText = text;
+            }
+            const time = document.createElement('span');
+            time.className = 'time';
+            time.innerText = getTime();
+            div.appendChild(time);
+            chat.appendChild(div);
+            chat.scrollTop = chat.scrollHeight;
+        }
+
+        function loadChat() {
+            const chat = document.getElementById('chatWindow');
+            chat.innerHTML = '';
+            for (const msg of chatHistory) {
+                appendMessage(msg.role, msg.text, msg.isImage || false);
+            }
+            if (chatHistory.length === 0 && currentChar) {
+                setTimeout(() => {
+                    appendMessage('bot', currentChar.firstMsg);
+                    chatHistory.push({ role: 'bot', text: currentChar.firstMsg, isImage: false });
+                    saveChat();
+                }, 400);
+            }
+        }
+
+        // ─── CHARACTER SELECTION ───
+        function renderCharacters() {
+            const grid = document.getElementById('charGrid');
+            grid.innerHTML = '';
+            characters.forEach(c => {
+                const card = document.createElement('div');
+                card.className = 'char-card';
+                card.innerHTML = `
+                    <img src="${c.image}" alt="${c.name}">
+                    <div class="name">${c.name}</div>
+                    <div class="desc">${c.personality}</div>
+                `;
+                card.onclick = function() { selectCharacter(c); };
+                grid.appendChild(card);
+            });
+        }
+
+        function selectCharacter(char) {
+            currentChar = char;
+            config.botName = char.name;
+            config.botAvatar = char.image;
+            config.personality = char.personality;
+            config.scenario = char.scenario;
+            config.note = char.note;
+            config.firstMsg = char.firstMsg;
+            saveConfig();
+
+            document.getElementById('charSelector').style.display = 'none';
+            document.getElementById('chatScreen').style.display = 'flex';
+            document.getElementById('inputArea').style.display = 'flex';
+            document.getElementById('chatName').innerText = char.name;
+            document.getElementById('chatAvatar').src = char.image;
+
+            chatHistory = [];
+            saveChat();
+            loadChat();
+            document.getElementById('userInput').focus();
+        }
+
+        function goBack() {
+            document.getElementById('charSelector').style.display = 'flex';
+            document.getElementById('chatScreen').style.display = 'none';
+            document.getElementById('inputArea').style.display = 'none';
+            saveChat();
+        }
+
+        // ─── BUILD SYSTEM PROMPT ───
+        function buildSystemPrompt() {
+            return `You are playing the role of ${config.botName}. 
+Personality details: ${config.personality}. 
+Current Scenario setting: ${config.scenario}. 
+Important behaviors or notes: ${config.note}. 
+Always stay fully in character. Do not give boilerplate AI disclaimers or sound robotic. Reply immersive and concise using a natural blend of Roman Urdu, Urdu, and English matching the user's style.`;
+        }
+
+        // ─── SEND MESSAGE ───
+        function sendMessage() {
+            const input = document.getElementById('userInput');
+            const text = input.value.trim();
+            if (!text || isGenerating || !currentChar) return;
+
+            // Trigger image context if keywords exist
+            const keywords = ['picture', 'pic', 'photo', 'image', 'tasveer', 'generate'];
+            if (keywords.some(k => text.toLowerCase().includes(k))) {
+                appendMessage('user', text);
+                chatHistory.push({ role: 'user', text: text, isImage: false });
+                saveChat();
+                input.value = '';
+                generateImage(text);
+                return;
+            }
+
+            appendMessage('user', text);
+            chatHistory.push({ role: 'user', text: text, isImage: false });
+            saveChat();
+            input.value = '';
+            getBotReply(text);
+        }
+
+        async function getBotReply(prompt) {
+            if (isGenerating) return;
+            isGenerating = true;
+            showLoading(true);
+
+            try {
+                const systemPrompt = buildSystemPrompt();
+                // Send recent context history along with it
+                let recentHistory = chatHistory.slice(-6).map(m => `${m.role === 'user' ? 'User' : config.bot
